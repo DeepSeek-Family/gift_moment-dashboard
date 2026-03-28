@@ -17,7 +17,7 @@ export default defineConfig({
   //     secure: false,
     //   }
     // },
-    host: "10.10.7.44",
-    port: 5173,
+    host: "31.97.211.94",
+    port: 9991,
   },
 });
