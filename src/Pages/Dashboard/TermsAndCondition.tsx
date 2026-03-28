@@ -35,6 +35,7 @@ const TermsAndCondition = () => {
       toast.error("Something went wrong");
     }
   };
+  console.log(termsDataSave, "termsDataSave");
 
   return (
     <div className="p-6 bg-white">

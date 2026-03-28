@@ -42,6 +42,7 @@ const PrivacyPolicy = () => {
       toast.error("Update failed. Please try again.");
     }
   };
+  console.log(termsDataSave, "termsDataSave");
 
   return (
     <div className="p-6 bg-white">

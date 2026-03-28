@@ -20,7 +20,8 @@ const QuoteHistoryTable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [status, setStatus] = useState<string>("All");
-
+  console.log(searchTerm, "searchTerm");
+  console.log(status, "status");
   const data: QuoteData[] = [
     {
       key: "1",

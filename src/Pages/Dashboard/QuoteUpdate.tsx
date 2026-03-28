@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Table, Input, Space, Select } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { FaEye, FaFileExcel, FaFilePdf } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const QuoteUpdateTable = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [status, setStatus] = useState<string>("All");
+  console.log(searchTerm, "searchTerm");
+  console.log(status, "status");
 
   const data = [
     {
@@ -75,7 +79,7 @@ const QuoteUpdateTable = () => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (status) => (
+      render: (status: string) => (
         <span
           className={
             status === "Draft"
@@ -96,7 +100,7 @@ const QuoteUpdateTable = () => {
     {
       title: "Action",
       dataIndex: "action",
-      render: (text, record) => (
+      render: (_: string, record: any) => (
         <Space>
           <FaFilePdf size={20} className="text-blue-600 cursor-pointer" />
           <Link to={`/quote-details/${record.quoteNo}`}>
@@ -117,13 +121,13 @@ const QuoteUpdateTable = () => {
             placeholder="Search here"
             prefix={<SearchOutlined />}
             className="w-60 py-3 rounded-3xl"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
           />
           <Select
             defaultValue="All"
             className="w-40 "
             style={{ height: "45px", borderRadius: "20px" }}
-            onChange={(value) => setStatus(value)}
+            onChange={(value: string) => setStatus(value)}
           >
             <Select.Option value="All">All</Select.Option>
             <Select.Option value="Draft">Draft</Select.Option>
@@ -136,7 +140,7 @@ const QuoteUpdateTable = () => {
       <Table
         rowSelection={{
           selectedRowKeys,
-          onChange: (keys) => setSelectedRowKeys(keys),
+          onChange: (keys: React.Key[]) => setSelectedRowKeys(keys),
         }}
         columns={columns}
         dataSource={data}

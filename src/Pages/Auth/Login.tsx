@@ -28,6 +28,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [login] = useLoginMutation();
+  console.log(rememberMe, "rememberMe");
 
   const onFinish = async (values: LoginFormValues): Promise<void> => {
     try {

@@ -33,6 +33,7 @@ const AboutUs = () => {
       content: content,
       userType: selectedTab,
     };
+    console.log(termsDataSave, "termsDataSave");
 
     try {
       await updateRulesAbout(data);
