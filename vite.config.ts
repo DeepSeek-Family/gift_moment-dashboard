@@ -10,14 +10,9 @@ export default defineConfig({
     },
   },
   server: {
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://10.10.7.44:9990',
-    //     changeOrigin: true,
-  //     secure: false,
-    //   }
-    // },
-    host: "31.97.211.94",
+    port: 9991,
+  },
+  preview: {
     port: 9991,
   },
 });
