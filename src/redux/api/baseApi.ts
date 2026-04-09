@@ -16,8 +16,7 @@ const baseQueryWithReauth: BaseQueryFn<
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://92.205.184.238:9990/api/v1",
     prepareHeaders: (headers) => {
-      const token =
-        localStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken");
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -43,10 +42,8 @@ const baseQueryWithReauth: BaseQueryFn<
           body: { refreshToken: refreshToken },
         },
         api,
-        extraOptions
+        extraOptions,
       );
-
-      console.log("Refresh token API result:", refreshResult);
 
       if (
         refreshResult?.data &&
@@ -57,7 +54,7 @@ const baseQueryWithReauth: BaseQueryFn<
         localStorage.removeItem("accessToken");
         localStorage.setItem(
           "accessToken",
-          (refreshResult.data as any).data.accessToken
+          (refreshResult.data as any).data.accessToken,
         );
 
         // Retry the original request with the new token
@@ -77,7 +74,7 @@ const baseQueryWithReauth: BaseQueryFn<
       // Handle parsing errors - likely HTML response instead of JSON
       console.error(
         "Parsing error - received HTML instead of JSON:",
-        result.error
+        result.error,
       );
       // Don't show error toast for parsing errors during development
     } else {

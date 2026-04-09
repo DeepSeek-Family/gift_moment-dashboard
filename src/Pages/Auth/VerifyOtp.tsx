@@ -4,6 +4,7 @@ import {
 } from "@/redux/apiSlices/authSlice";
 import { Button, Form, Typography } from "antd";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import OTPInput from "react-otp-input";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -20,8 +21,6 @@ const VerifyOtp = () => {
   const location = useLocation();
   const [otp, setOtp] = useState<string>("");
   const email = new URLSearchParams(location.search).get("email"); // Get email from query params
-
-  console.log(typeof otp);
 
   const [otpVerify] = useOtpVerifyMutation();
   const [resendOtp] = useForgotPasswordMutation(); // RTK Query mutation for resending OTP
@@ -52,9 +51,9 @@ const VerifyOtp = () => {
       }).unwrap()) as ApiResponse;
 
       if (response?.success) {
-        console.log("OTP resent successfully");
+        toast.success("OTP resent successfully! Please check your email.");
       } else {
-        console.error("Failed to resend OTP");
+        toast.error("Failed to resend OTP. Please try again.");
       }
     } catch (error) {
       console.error("Error resending OTP:", error);

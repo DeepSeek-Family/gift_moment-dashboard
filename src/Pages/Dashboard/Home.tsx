@@ -34,7 +34,6 @@ const Home: React.FC = () => {
   if (isLoading) {
     <LoadingSpinner />;
   }
-  console.log("Dashboard Analytic Data:", data);
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-6">Dashboard Overview</h1>

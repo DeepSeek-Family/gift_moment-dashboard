@@ -116,7 +116,6 @@ const OurTransactions: React.FC = () => {
   ];
 
   const handleFilterChange = (value: string): void => {
-    console.log(value, "value");
     if (value === "all") {
       setFilteredData(dummyData);
     } else {

@@ -9,8 +9,8 @@ interface ChangePasswordFormValues {
 const ChangePassword = () => {
   const [form] = Form.useForm<ChangePasswordFormValues>();
 
-  const handleChangePassword = (values: ChangePasswordFormValues) => {
-    console.log(values);
+  const handleChangePassword = (_values: ChangePasswordFormValues) => {
+    // console.log(values);
   };
 
   return (

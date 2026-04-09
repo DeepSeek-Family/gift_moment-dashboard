@@ -59,7 +59,6 @@ const PersonalInfo = () => {
   if (isLoading || isUpdating) {
     return <LoadingSpinner />;
   }
-  console.log("Admin Profile Data:", userData);
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -83,7 +82,6 @@ const PersonalInfo = () => {
       }
       // @ts-ignore
       const response = await updateAdminProfile(formData);
-      console.log("Update Response:", response);
       if (response.data) {
         toast.success(response?.data?.message);
       } else {
@@ -94,8 +92,7 @@ const PersonalInfo = () => {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+  const onFinishFailed = (_errorInfo: any) => {
   };
   if (isLoading || isUpdating) {
     return (

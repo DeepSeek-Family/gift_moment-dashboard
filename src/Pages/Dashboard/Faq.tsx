@@ -40,8 +40,7 @@ const Faq = () => {
     setOpenAddModel(true);
   };
 
-  const handleDelete = (key: string) => {
-    console.log("Delete FAQ with key:", key);
+  const handleDelete = (_key: string) => {
     // Add delete logic here
   };
 

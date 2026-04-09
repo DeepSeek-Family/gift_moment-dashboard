@@ -18,7 +18,7 @@ const TermsAndCondition = () => {
   if (isLoading) {
     return <LoadingSpinner />;
   }
-  const termsDataSave = async () => {
+  async () => {
     try {
       const payload = {
         content: content || data?.data?.content || "",
@@ -35,7 +35,6 @@ const TermsAndCondition = () => {
       toast.error("Something went wrong");
     }
   };
-  console.log(termsDataSave, "termsDataSave");
 
   return (
     <div className="p-6 bg-white">

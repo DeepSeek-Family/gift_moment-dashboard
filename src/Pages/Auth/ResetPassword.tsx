@@ -27,12 +27,10 @@ const ResetPassword = () => {
   const [resetPassword] = useResetPasswordMutation(); // Destructure mutation with loading state
 
   const onFinish = async (values: ResetPasswordFormValues): Promise<void> => {
-    console.log({ email, ...values });
     const data: ResetPasswordRequest = { email, ...values }; // Combine email and new password values into an object
 
     try {
       const response = (await resetPassword(data).unwrap()) as ApiResponse;
-      console.log(response);
       if (response?.success) {
         message.success("Password updated successfully!");
         navigate(`/auth/login`);

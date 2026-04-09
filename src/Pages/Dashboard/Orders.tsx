@@ -133,8 +133,7 @@ const RunningOrders = () => {
     },
   ];
 
-  const handleDelete = (key: string): void => {
-    console.log(`Deleting order with key: ${key}`);
+  const handleDelete = (_key: string): void => {
     // Add logic to delete the order here
   };
 

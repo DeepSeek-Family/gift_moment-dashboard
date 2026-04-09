@@ -242,18 +242,18 @@ const OfferList = () => {
     },
   ];
 
-  const handleDelete = (key: string) => {
-    console.log(`Deleting offer with key: ${key}`);
+  const handleDelete = (_key: string) => {
+    // console.log(`Deleting offer with key: ${key}`);
     // Add logic to delete offer here
   };
 
-  const handleApprove = (key: string) => {
-    console.log(`Approving offer with key: ${key}`);
+  const handleApprove = (_key: string) => {
+    // console.log(`Approving offer with key: ${key}`);
     // Add logic to approve offer here
   };
 
-  const handleReject = (key: string) => {
-    console.log(`Rejecting offer with key: ${key}`);
+  const handleReject = (_key: string) => {
+    // console.log(`Rejecting offer with key: ${key}`);
     // Add logic to reject offer here
   };
 

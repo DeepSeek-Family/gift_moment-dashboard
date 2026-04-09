@@ -429,7 +429,6 @@ const OccasionManagement: React.FC = () => {
   if (isLoading || isCreating || isGiftLoading || isCreatingGift) {
     return <LoadingSpinner />;
   }
-  console.log("giftData:", giftData);
   const occasionsData: OccasionData[] = (data?.data || []).map((item: any) => ({
     key: item._id,
     name: item.name,
