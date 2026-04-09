@@ -25,7 +25,7 @@ const PrivacyPolicy = () => {
   }
 
   const privacyPolicyData = privacyPolicy?.data?.content || "";
-  const termsDataSave = async () => {
+  async () => {
     try {
       const res = await updatePrivacyPolicy({
         content: content || privacyPolicyData,

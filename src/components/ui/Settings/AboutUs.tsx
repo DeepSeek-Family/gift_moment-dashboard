@@ -28,7 +28,7 @@ const AboutUs = () => {
   const privacyPolicy: PrivacyPolicyData[] = [];
   const privacyPolicyData = privacyPolicy?.[0]?.content || "";
 
-  const termsDataSave = async () => {
+  async () => {
     const data = {
       content: content,
       userType: selectedTab,
