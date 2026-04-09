@@ -14,7 +14,7 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "http://147.93.94.210:9990/api/v1",
+    baseUrl: "http://92.205.184.238:9990/api/v1",
     prepareHeaders: (headers) => {
       const token =
         localStorage.getItem("accessToken");
@@ -98,4 +98,4 @@ export const api = createApi({
 });
 
 // Export the image URL as a constant
-export const imageUrl = "http://147.93.94.210:9990";
+export const imageUrl = "http://92.205.184.238:9990";
