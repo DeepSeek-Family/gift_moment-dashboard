@@ -11,10 +11,10 @@ export default defineConfig({
   },
   server: {
     port: 9991,
-    host: "147.93.94.210",
+    host: "92.205.184.238",
   },
   preview: {
-    host: "147.93.94.210",
+    host: "92.205.184.238",
     port: 9991,
   },
 });
