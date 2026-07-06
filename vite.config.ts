@@ -14,7 +14,7 @@ export default defineConfig({
     host: "localhost",
   },
   preview: {
-    host: "localhost",
+    host: "152.239.120.18",
     port: 5173,
   },
 });
