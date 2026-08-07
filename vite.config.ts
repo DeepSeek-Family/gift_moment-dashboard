@@ -14,7 +14,8 @@ export default defineConfig({
     host: "localhost",
   },
   preview: {
-    host: "152.239.120.18",
+    host: "0.0.0.0",
     port: 5173,
+    allowedHosts: ["admin.giftmoment.tech"],
   },
 });
