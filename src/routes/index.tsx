@@ -27,15 +27,16 @@ import Transactions from "@/Pages/Dashboard/Transactions";
 import Banner from "@/Pages/Dashboard/Banner";
 import CheckoutSuccess from "@/Pages/Dashboard/CheckoutSuccess";
 import CheckoutCancel from "@/Pages/Dashboard/CheckoutCancel";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
     // element: <ProtectedRoute><Main /></ProtectedRoute> ,
     element: (
-      // <PrivateRoute>
-      <Main />
-      // </PrivateRoute>
+      <PrivateRoute>
+        <Main />
+      </PrivateRoute>
     ),
     children: [
       {

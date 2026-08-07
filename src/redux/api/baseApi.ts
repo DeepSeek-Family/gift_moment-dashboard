@@ -14,7 +14,7 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "http://152.239.120.18:9991/api/v1",
+    baseUrl: "https://api.giftmoment.tech/api/v1",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("accessToken");
       if (token) {
@@ -95,4 +95,4 @@ export const api = createApi({
 });
 
 // Export the image URL as a constant
-export const imageUrl = "http://152.239.120.18:9991";
+export const imageUrl = "https://api.giftmoment.tech";
