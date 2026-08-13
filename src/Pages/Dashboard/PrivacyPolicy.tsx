@@ -1,7 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import toast from "react-hot-toast";
 import {
+  getRuleContent,
   useGetRulesPrivacyQuery,
   useUpdateRulesPrivacyMutation,
 } from "@/redux/apiSlices/rule";
@@ -9,47 +10,51 @@ import LoadingSpinner from "@/components/Shared/LoadingSpinner";
 import { Button } from "antd";
 
 const PrivacyPolicy = () => {
-  const editor = useRef<any>(null);
-  const [content, setContent] = useState<string>("");
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
 
-  const {
-    data: privacyPolicy,
-    isLoading,
-    refetch,
-  } = useGetRulesPrivacyQuery(undefined);
+  const { data, isLoading, refetch } = useGetRulesPrivacyQuery();
   const [updatePrivacyPolicy, { isLoading: isUpdating }] =
     useUpdateRulesPrivacyMutation();
 
-  if (isLoading || isUpdating) {
-    return <LoadingSpinner />;
-  }
+  const initialContent = getRuleContent(data?.data);
 
-  const privacyPolicyData = privacyPolicy?.data?.content || "";
-  async () => {
+  useEffect(() => {
+    setContent(initialContent);
+  }, [initialContent]);
+
+  const handleSubmit = async () => {
     try {
-      const res = await updatePrivacyPolicy({
-        content: content || privacyPolicyData,
-      }).unwrap();
+      const res = await updatePrivacyPolicy({ content }).unwrap();
       if (res.success) {
-        toast.success("Privacy Policy updated successfully");
-        setContent(res.data.content);
+        toast.success(res.message || "Privacy Policy updated successfully");
+        setContent(getRuleContent(res.data));
         refetch();
       } else {
         toast.error("Something went wrong");
       }
-    } catch (error) {
-      console.error("Update failed:", error);
+    } catch {
       toast.error("Update failed. Please try again.");
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="p-6 bg-white">
       <h1 className="text-2xl font-semibold">Privacy Policy</h1>
 
+      {!initialContent && (
+        <p className="mt-2 mb-4 text-gray-500">
+          No privacy policy created yet. Add content and submit to create it.
+        </p>
+      )}
+
       <JoditEditor
         ref={editor}
-        value={privacyPolicy?.data?.content || content}
+        value={content}
         onChange={(newContent: string) => {
           setContent(newContent);
         }}
@@ -57,12 +62,13 @@ const PrivacyPolicy = () => {
 
       <div className="flex items-center justify-center mt-5">
         <Button
-          htmlType="submit"
           type="primary"
+          loading={isUpdating}
+          onClick={handleSubmit}
           style={{
             width: 178,
             height: 45,
-            fontWeight: "400px",
+            fontWeight: 400,
             background: "#6DBD44",
             color: "black",
           }}

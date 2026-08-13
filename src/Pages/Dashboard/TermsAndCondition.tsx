@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import Title from "../../components/common/Title";
-
 import toast from "react-hot-toast";
 import {
+  getRuleContent,
   useGetRulesTermsQuery,
   useUpdateRulesTermsMutation,
 } from "@/redux/apiSlices/rule";
@@ -13,36 +13,52 @@ import { Button } from "antd";
 const TermsAndCondition = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  const [updateTermsAndConditions] = useUpdateRulesTermsMutation();
-  const { data, isLoading, refetch } = useGetRulesTermsQuery(undefined);
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-  async () => {
+
+  const { data, isLoading, refetch } = useGetRulesTermsQuery();
+  const [updateTermsAndConditions, { isLoading: isUpdating }] =
+    useUpdateRulesTermsMutation();
+
+  const initialContent = getRuleContent(data?.data);
+
+  useEffect(() => {
+    setContent(initialContent);
+  }, [initialContent]);
+
+  const handleSubmit = async () => {
     try {
-      const payload = {
-        content: content || data?.data?.content || "",
-      };
-      const res = await updateTermsAndConditions(payload).unwrap();
+      const res = await updateTermsAndConditions({ content }).unwrap();
       if (res.success) {
-        toast.success("Terms and Conditions updated successfully");
-        setContent(res.data.content);
+        toast.success(
+          res.message || "Terms and Conditions updated successfully",
+        );
+        setContent(getRuleContent(res.data));
         refetch();
       } else {
         toast.error("Something went wrong");
       }
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Update failed. Please try again.");
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="p-6 bg-white">
       <Title className="mb-4">Terms and Conditions</Title>
 
+      {!initialContent && (
+        <p className="mt-2 mb-4 text-gray-500">
+          No terms and conditions created yet. Add content and submit to create
+          it.
+        </p>
+      )}
+
       <JoditEditor
         ref={editor}
-        value={data?.data?.content || content}
+        value={content}
         onChange={(newContent) => {
           setContent(newContent);
         }}
@@ -50,12 +66,13 @@ const TermsAndCondition = () => {
 
       <div className="flex items-center justify-center mt-5">
         <Button
-          htmlType="submit"
           type="primary"
+          loading={isUpdating}
+          onClick={handleSubmit}
           style={{
             width: 178,
             height: 45,
-            fontWeight: "400px",
+            fontWeight: 400,
             background: "#6DBD44",
             color: "black",
           }}
