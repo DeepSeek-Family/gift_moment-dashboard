@@ -1,56 +1,60 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import toast from "react-hot-toast";
 import {
+  getRuleContent,
   useGetRulesAboutQuery,
   useUpdateRulesAboutMutation,
 } from "@/redux/apiSlices/rule";
 import LoadingSpinner from "@/components/Shared/LoadingSpinner";
 import { Button } from "antd";
 
-interface PrivacyPolicyData {
-  content?: string;
-}
-
 const AboutUs = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  const [selectedTab] = useState("about");
 
-  const { data, isLoading } = useGetRulesAboutQuery(undefined);
+  const { data, isLoading, refetch } = useGetRulesAboutQuery();
   const [updateRulesAbout, { isLoading: isUpdating }] =
     useUpdateRulesAboutMutation();
 
-  if (isLoading || isUpdating) {
-    return <LoadingSpinner />;
-  }
+  const initialContent = getRuleContent(data?.data);
 
-  const privacyPolicy: PrivacyPolicyData[] = [];
-  const privacyPolicyData = privacyPolicy?.[0]?.content || "";
+  useEffect(() => {
+    setContent(initialContent);
+  }, [initialContent]);
 
-  async () => {
-    const data = {
-      content: content,
-      userType: selectedTab,
-    };
-
+  const handleSubmit = async () => {
     try {
-      await updateRulesAbout(data);
-      toast.success("About Us updated successfully");
-      setContent(data.content);
-    } catch (error) {
-      console.error("Update failed:", error);
+      const res = await updateRulesAbout({ content }).unwrap();
+      if (res.success) {
+        toast.success(res.message || "About Us updated successfully");
+        setContent(getRuleContent(res.data));
+        refetch();
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch {
       toast.error("Update failed. Please try again.");
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="p-6 bg-white">
       <h1 className="text-2xl font-semibold">About Us</h1>
 
+      {!initialContent && (
+        <p className="mt-2 mb-4 text-gray-500">
+          No about content created yet. Add content and submit to create it.
+        </p>
+      )}
+
       <JoditEditor
         ref={editor}
-        value={data?.data?.content || privacyPolicyData}
+        value={content}
         onChange={(newContent) => {
           setContent(newContent);
         }}
@@ -58,12 +62,13 @@ const AboutUs = () => {
 
       <div className="flex items-center justify-center mt-5">
         <Button
-          htmlType="submit"
           type="primary"
+          loading={isUpdating}
+          onClick={handleSubmit}
           style={{
             width: 178,
             height: 45,
-            fontWeight: "400px",
+            fontWeight: 400,
             background: "#6DBD44",
             color: "black",
           }}
